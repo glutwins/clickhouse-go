@@ -2,6 +2,7 @@ package column
 
 import (
 	"github.com/ClickHouse/clickhouse-go/lib/binary"
+	"strconv"
 )
 
 type UInt64 struct{ base }
@@ -21,6 +22,12 @@ func (u *UInt64) Write(encoder *binary.Encoder, v interface{}) error {
 			return err
 		}
 		return nil
+	case string:
+		i, err := strconv.ParseUint(v, 10, 64)
+		if err != nil {
+			return encoder.UInt64(0)
+		}
+		return encoder.UInt64(i)
 	case uint64:
 		return encoder.UInt64(v)
 	case int64:
