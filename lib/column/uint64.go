@@ -27,6 +27,20 @@ func (u *UInt64) Write(encoder *binary.Encoder, v interface{}) error {
 		return encoder.UInt64(uint64(v))
 	case int:
 		return encoder.UInt64(uint64(v))
+	case uint:
+		return encoder.UInt64(uint64(v))
+	case int32:
+		return encoder.UInt64(uint64(v))
+	case uint32:
+		return encoder.UInt64(uint64(v))
+	case int16:
+		return encoder.UInt64(uint64(v))
+	case uint16:
+		return encoder.UInt64(uint64(v))
+	case int8:
+		return encoder.UInt64(uint64(v))
+	case uint8:
+		return encoder.UInt64(uint64(v))
 
 	// this relies on Nullable never sending nil values through
 	case *uint64:
@@ -34,6 +48,20 @@ func (u *UInt64) Write(encoder *binary.Encoder, v interface{}) error {
 	case *int64:
 		return encoder.UInt64(uint64(*v))
 	case *int:
+		return encoder.UInt64(uint64(*v))
+	case *uint:
+		return encoder.UInt64(uint64(*v))
+	case *int32:
+		return encoder.UInt64(uint64(*v))
+	case *uint32:
+		return encoder.UInt64(uint64(*v))
+	case *int16:
+		return encoder.UInt64(uint64(*v))
+	case *uint16:
+		return encoder.UInt64(uint64(*v))
+	case *int8:
+		return encoder.UInt64(uint64(*v))
+	case *uint8:
 		return encoder.UInt64(uint64(*v))
 	}
 

@@ -18,6 +18,18 @@ func (i *Int64) Write(encoder *binary.Encoder, v interface{}) error {
 	switch v := v.(type) {
 	case int:
 		return encoder.Int64(int64(v))
+	case int32:
+		return encoder.Int64(int64(v))
+	case uint32:
+		return encoder.Int64(int64(v))
+	case int16:
+		return encoder.Int64(int64(v))
+	case uint16:
+		return encoder.Int64(int64(v))
+	case int8:
+		return encoder.Int64(int64(v))
+	case uint8:
+		return encoder.Int64(int64(v))
 	case int64:
 		return encoder.Int64(v)
 	case []byte:
@@ -28,6 +40,18 @@ func (i *Int64) Write(encoder *binary.Encoder, v interface{}) error {
 
 	// this relies on Nullable never sending nil values through
 	case *int:
+		return encoder.Int64(int64(*v))
+	case *int32:
+		return encoder.Int64(int64(*v))
+	case *uint32:
+		return encoder.Int64(int64(*v))
+	case *int16:
+		return encoder.Int64(int64(*v))
+	case *uint16:
+		return encoder.Int64(int64(*v))
+	case *int8:
+		return encoder.Int64(int64(*v))
+	case *uint8:
 		return encoder.Int64(int64(*v))
 	case *int64:
 		return encoder.Int64(*v)
