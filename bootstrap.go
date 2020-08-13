@@ -55,7 +55,7 @@ func init() {
 }
 
 func now() time.Time {
-	return time.Unix(atomic.LoadInt64(&unixtime), 0)
+	return time.Unix(0, atomic.LoadInt64(&unixtime))
 }
 
 type bootstrap struct{}
@@ -152,6 +152,8 @@ func open(dsn string) (*clickhouse, error) {
 		connOpenStrategy = connOpenRandom
 	case "in_order":
 		connOpenStrategy = connOpenInOrder
+	case "time_random":
+		connOpenStrategy = connOpenTimeRandom
 	}
 
 	settings, err := makeQuerySettings(query)
@@ -205,6 +207,7 @@ func open(dsn string) (*clickhouse, error) {
 	ch.encoder = binary.NewEncoderWithCompress(ch.buffer)
 
 	if err := ch.hello(database, username, password); err != nil {
+		ch.conn.Close()
 		return nil, err
 	}
 	return &ch, nil
@@ -243,7 +246,6 @@ func (ch *clickhouse) hello(database, username, password string) error {
 			ch.logf("[bootstrap] <- end of stream")
 			return nil
 		default:
-			ch.conn.Close()
 			return fmt.Errorf("[hello] unexpected packet [%d] from server", packet)
 		}
 	}
